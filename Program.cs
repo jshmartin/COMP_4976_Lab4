@@ -15,6 +15,13 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
 
+// Add Cors
+builder.Services.AddCors(o => o.AddPolicy("HealthPolicy", builder => {
+builder.AllowAnyOrigin()
+.AllowAnyMethod()
+.AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +32,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+app.UseCors();
 
 app.UseAuthorization();
 
